@@ -49,22 +49,32 @@ public class Player : KinematicBody
         {
             if (IsOnWall())
             {
-                GD.Print("on wall");
                 _targetCameraPivot = _cameraPivotNorth;
             }
-
             _direction.z -= 1;
         }
         if (Input.IsActionPressed("MoveDown"))
         {
+            if (IsOnWall())
+            {
+                _targetCameraPivot = _cameraPivotSouth;
+            }
             _direction.z += 1;
         }
         if (Input.IsActionPressed("MoveRight"))
         {
+            if (IsOnWall())
+            {
+                _targetCameraPivot = _cameraPivotEast;
+            }
             _direction.x += 1;
         }
         if (Input.IsActionPressed("MoveLeft"))
         {
+            if (IsOnWall())
+            {
+                _targetCameraPivot = _cameraPivotWest;
+            }
             _direction.x -= 1;
         }
         _direction = _direction.Normalized();
