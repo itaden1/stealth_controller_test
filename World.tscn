@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+
+[sub_resource type="QuadMesh" id=1]
+
+[sub_resource type="ConvexPolygonShape" id=2]
+points = PoolVector3Array( -0.5, -0.5, 0, -0.5, 0.5, 0, 0.5, 0.5, 0, -0.5, -0.5, 0, 0.5, 0.5, 0, 0.5, -0.5, 0 )
+
+[sub_resource type="CubeMesh" id=3]
+
+[sub_resource type="ConvexPolygonShape" id=4]
+points = PoolVector3Array( -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1 )
+
+[node name="World" type="Spatial"]
+
+[node name="Ground" type="StaticBody" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="Ground"]
+transform = Transform( 50, 0, 0, 0, -2.18557e-06, 1, 0, -50, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Ground"]
+transform = Transform( 50, 0, 0, 0, -2.18557e-06, 1, 0, -50, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 2 )
+
+[node name="Wall" type="StaticBody" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="Wall"]
+transform = Transform( 5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 3.54885, -9.36873 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Wall"]
+transform = Transform( 5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 3.54885, -9.36873 )
+shape = SubResource( 4 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25212, 21.2686 )
