@@ -24,10 +24,13 @@ public class CameraPivot : Spatial
     {
         _camera = (Camera)GetNode("SpringArm/Camera");
 
-        _cameraPivotNuetral = Transform.Rotated(new Vector3(1,0,0), 0F);
-        _cameraRotationNuetral = _camera.Transform.Rotated(new Vector3(1,0,0), 0F);
+        // Do not inherit players transform
+        SetAsToplevel(true);
+        
+        _cameraPivotNuetral = Transform;
+        _cameraRotationNuetral = _camera.Transform;
 
-        _cameraPivotNorth = _cameraPivotNuetral.Rotated(new Vector3(1,0,0), (float)(70 * Math.PI / 180));
+        _cameraPivotNorth = _cameraPivotNuetral.Rotated(new Vector3(1,0,0), (float)(90 * Math.PI / 180));
         _cameraRotationNorth = _cameraRotationNuetral;
 
         _cameraPivotSouth = _cameraPivotNuetral.Rotated(new Vector3(1,0,0), (float)(-70 * Math.PI / 180));
@@ -43,9 +46,18 @@ public class CameraPivot : Spatial
     }
     public override void _PhysicsProcess(float delta)
     {
-        Transform = Transform.InterpolateWith(_targetCameraPivot, CameraSpeed * delta);
-        _camera.Transform = _camera.Transform.InterpolateWith(_targetCameraRotation, CameraSpeed * delta);
+        var parentNode = (Spatial)GetParent();
+        Vector3 targetPos = parentNode.GlobalTransform.origin;
+        Vector3 pos = GlobalTransform.origin;
+        Vector3 offset = pos - targetPos;
+
+        pos = targetPos;
+        pos.y = 5;
         
+        GlobalTransform = new Transform(Basis.Identity, pos);
+        // LookAtFromPosition(pos, targetPos, new Vector3(1,0,0));
+        // GlobalTransform = GlobalTransform.InterpolateWith(_targetCameraPivot, 0 * delta);
+        // _camera.Transform = _camera.Transform.InterpolateWith(_targetCameraRotation, CameraSpeed * delta);
     }
     public void NuetralizeRotation()
     {

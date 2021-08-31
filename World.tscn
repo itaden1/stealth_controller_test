@@ -63,3 +63,6 @@ shape = SubResource( 4 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.436736, 21.2686 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -0.998435, 0, -0.0559261, -0.0104536, 0.982375, 0.186626, 0.0549405, 0.186918, -0.980838, 0, 8.1466, 0 )
