@@ -20,11 +20,14 @@ public class CameraPivot : Spatial
 
 
     private Camera _camera;
+    private Vector3 _rotationAxis = new Vector3(Vector3.Up);
+    private float _targetRotation;
+
     public override void _Ready()
     {
         _camera = (Camera)GetNode("SpringArm/Camera");
 
-        // Do not inherit players transform
+        // Do not inherit players rotation, we will need to reset the origin each frame
         SetAsToplevel(true);
         
         _cameraPivotNuetral = Transform;
@@ -46,15 +49,14 @@ public class CameraPivot : Spatial
     }
     public override void _PhysicsProcess(float delta)
     {
+        // reset global position to that of the parent
         var parentNode = (Spatial)GetParent();
         Vector3 targetPos = parentNode.GlobalTransform.origin;
-        Vector3 pos = GlobalTransform.origin;
-        Vector3 offset = pos - targetPos;
-
-        pos = targetPos;
-        pos.y = 5;
         
-        GlobalTransform = new Transform(Basis.Identity, pos);
+        Transform targetTransform = new Transform(Basis.Identity, targetPos);
+        targetTransform = targetTransform.Rotated(_rotationAxis, _targetRotation);
+        GlobalTransform.InterpolateWith(targetTransform , 5 * delta);
+        GlobalTransform = new Transform(Basis.Identity, targetPos);
         // LookAtFromPosition(pos, targetPos, new Vector3(1,0,0));
         // GlobalTransform = GlobalTransform.InterpolateWith(_targetCameraPivot, 0 * delta);
         // _camera.Transform = _camera.Transform.InterpolateWith(_targetCameraRotation, CameraSpeed * delta);

@@ -40,3 +40,25 @@ current = true
 transform = Transform( 0.2, 0, 0, 0, -8.74228e-09, 0.2, 0, -0.2, -8.74228e-09, 0, 2.06544, -1.10062 )
 mesh = SubResource( 3 )
 material/0 = SubResource( 4 )
+
+[node name="DirectionRays" type="Spatial" parent="."]
+
+[node name="RayCastNorth" type="RayCast" parent="DirectionRays"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48525, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, -2 )
+
+[node name="RayCastSouth" type="RayCast" parent="DirectionRays"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48525, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, 2 )
+
+[node name="RayCastEast" type="RayCast" parent="DirectionRays"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48525, 0 )
+enabled = true
+cast_to = Vector3( 2, 0, 0 )
+
+[node name="RayCastWest" type="RayCast" parent="DirectionRays"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48525, 0 )
+enabled = true
+cast_to = Vector3( -2, 0, 0 )
