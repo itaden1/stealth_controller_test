@@ -88,35 +88,19 @@ public class Player : KinematicBody
         }
         if (Input.IsActionPressed("MoveRight"))
         {
-            if (IsOnWall()) 
-            {
-                _cameraPivot.FaceEast();
-                _targetAngle = (float)(90 * Math.PI / 180);
-            }
-            else
-            {
-                _targetAngle = (float)(-90 * Math.PI / 180);
-            }
+            _targetAngle = (float)(-90 * Math.PI / 180);
             _direction.x += 1;
         }
         if (Input.IsActionPressed("MoveLeft"))
         {
-            if (IsOnWall()) 
-            {
-                _cameraPivot.FaceWest();
-                _targetAngle = (float)(-90 * Math.PI / 180);
-            }
-            else
-            {
-                _targetAngle = (float)(90 * Math.PI / 180);
-            }
+            _targetAngle = (float)(90 * Math.PI / 180);
             _direction.x -= 1;
         }
     }
 
     private void HandleStealthState(float delta)
     {
-        if (_rayCastNorth.IsColliding() && Input.IsActionPressed("MoveUp"))
+        if (_rayCastNorth.IsColliding())
         {
             _cameraPivot.FaceNorth();
             _targetAngle = (float)(180 * Math.PI / 180);
@@ -130,7 +114,7 @@ public class Player : KinematicBody
                 _direction.x += 1;
             }
         }
-        if (_rayCastSouth.IsColliding() && Input.IsActionPressed("MoveDown"))
+        else if (_rayCastSouth.IsColliding())
         {
             _cameraPivot.FaceSouth();
             _targetAngle = 0f;
@@ -144,6 +128,38 @@ public class Player : KinematicBody
                 _direction.x -= 1;
             }
         }
+        else if (_rayCastEast.IsColliding())
+        {
+            _cameraPivot.FaceEast();
+            _targetAngle = (float)(90 * Math.PI / 180);
 
+            if (Input.IsActionPressed("MoveRight"))
+            {
+                _direction.z += 1;
+            }
+            else if (Input.IsActionPressed("MoveLeft"))
+            {
+                _direction.z -= 1;
+            }
+        }
+        else if (_rayCastWest.IsColliding())
+        {
+            _cameraPivot.FaceWest();
+            _targetAngle = (float)(-90 * Math.PI / 180);
+
+            if (Input.IsActionPressed("MoveRight"))
+            {
+                _direction.z -= 1;
+            }
+            else if (Input.IsActionPressed("MoveLeft"))
+            {
+                _direction.z += 1;
+            }
+        }
+        else
+        {
+            _cameraPivot.NuetralizeRotation();
+            HandleFreeState(delta);
+        }
     }
 }
